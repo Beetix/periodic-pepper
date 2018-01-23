@@ -99,7 +99,7 @@
 		</style>
 	</head>
 	<body>
-        <script src="/libs/qi/2/qi.js"></script>
+        <script src="/apps/salt/js/studiotoolkit/javascript/robotutils.js"></script>
 		<script src="js/three.min.js"></script>
 		<script src="js/tween.min.js"></script>
 		<script src="js/TrackballControls.js"></script>
@@ -244,21 +244,18 @@
 			var targets = { table: [], sphere: [], helix: [], grid: [] };
 
 
-            var say;
+            say("Voici le tableau périodique des éléments");
 
-            QiSession(function (session) {
-                session.service("ALTextToSpeech").then(function (tts) {
-                    tts.say("Voici le tableau périodique des éléments");
+            init();
+            animate();
 
-                    say = function (text) {
-                        tts.say(text);
-                    };
-                    init();
-                    animate();
+            function say(text) {
+                RobotUtils.onServices(function(ALTextToSpeech) {
+                    ALTextToSpeech.say(text);
+                }, function (e) {
+                    console.log(e);
                 });
-            }, function () {
-                console.log("disconnected");
-            });
+            }
 
 			function init() {
 
@@ -279,7 +276,8 @@
                         while (node.className !== "element") {
                             node = node.parentNode;
                         }
-                        say(node.childNodes[2].innerHTML.split("<br>")[0]); 
+                        say(node.childNodes[2].innerHTML.split("<br>")[0]);
+                        ALTabletBinding.raiseEvent("app-launcher");
                     }, false );
 
 					var number = document.createElement( 'div' );
