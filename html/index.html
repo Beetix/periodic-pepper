@@ -96,6 +96,18 @@
 				color: #000000;
 				background-color: rgba(0,255,255,0.75);
 			}
+            #back {
+                background-color: rgba(127,255,255,0.75);
+                color: white;
+                font-family: Arial;
+                font-size: 40px;
+                height: 100px;
+                line-height: 100px;
+                margin: 15px 20px;
+                position: absolute;
+                text-align: center;
+                width: 200px;
+            }
 		</style>
 	</head>
 	<body>
@@ -106,6 +118,7 @@
 		<script src="js/CSS3DRenderer.js"></script>
 
 		<div id="container"></div>
+        <div id="back">Retour</div>
 		<div id="info"><a href="http://threejs.org" target="_blank" rel="noopener">three.js css3d</a> - tableau périodique. <a href="https://plus.google.com/113862800338869870683/posts/QcFk5HrWran" target="_blank" rel="noopener">info</a>.</div>
 		<div id="menu">
 			<button id="table">TABLE</button>
@@ -259,6 +272,14 @@
 
 			function init() {
 
+                document.getElementById( 'back' ).addEventListener( 'click', function (event) {
+                    RobotUtils.onServices(function(CPEAppLauncher) {
+                        CPEAppLauncher.home();
+                    }, function (e) {
+                        console.log(e);
+                    });
+                }, false);
+
 				camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
 				camera.position.z = 3000;
 
@@ -277,7 +298,6 @@
                             node = node.parentNode;
                         }
                         say(node.childNodes[2].innerHTML.split("<br>")[0]);
-                        ALTabletBinding.raiseEvent("app-launcher");
                     }, false );
 
 					var number = document.createElement( 'div' );
